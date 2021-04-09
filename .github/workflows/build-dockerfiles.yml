@@ -23,28 +23,12 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v2
-#       -
-#         name: Docker meta
-#         id: meta
-#         uses: crazy-max/ghaction-docker-meta@v2
-#         with:
-#           # list of Docker images to use as base name for tags
-#           images: |
-#             name/app
-#             ghcr.io/username/app
-#           # generate Docker tags based on the following events/attributes
-#           tags: |
-#             type=schedule
-#             type=ref,event=branch
-#             type=ref,event=pr
-#             type=semver,pattern={{version}}
-#             type=semver,pattern={{major}}.{{minor}}
-#             type=semver,pattern={{major}}
-#             type=sha
       -
         name: Get version number
         run: |
-          echo "defi_version=$(cat release-versions/defichain-latest.txt)" >> $GITHUB_ENV
+          DEFI_VERSION=$(cat release-versions/defichain-latest.txt)
+          echo "defi_version_name=${DEFI_VERSION}" >> $GITHUB_ENV
+          echo "defi_version=$(echo "${DEFI_VERSION}" | tr -d "v")" >> GITHUB_ENV
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -63,9 +47,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: dockerfiles/arm32v7.dockerfile
-          build-args: DEFI_VERSION=${{ env.defi_version }}
+          file: dockerfiles/defichain.dockerfile
+          build-args: BUILD_VERSION=${{ env.defi_version }}
           platforms: linux/arm/v7, linux/arm64
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: jha749/rpi-test
-          #labels: ${{ steps.meta.outputs.labels }}
+          push: true
+          tags: jha749/defichain:latest, jha749/defichain:${{ env.defi_version }}
