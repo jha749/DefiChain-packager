@@ -65,7 +65,7 @@ jobs:
           context: .
           file: dockerfiles/arm32v7.dockerfile
           build-args: DEFI_VERSION=${{ env.defi_version }}
-          platforms: linux/arm/v7, linux/arm/64
+          platforms: linux/arm/v7, linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: jha749/rpi-test
           #labels: ${{ steps.meta.outputs.labels }}
