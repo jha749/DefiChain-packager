@@ -28,7 +28,9 @@ jobs:
         run: |
           DEFI_VERSION=$(cat release-versions/defichain-latest.txt)
           echo "defi_version_name=${DEFI_VERSION}" >> $GITHUB_ENV
-          echo "defi_version=$(echo "${DEFI_VERSION}" | tr -d "v")" >> GITHUB_ENV
+          echo "defi_version=$(echo "${DEFI_VERSION}" | cut -c 1-)" >> GITHUB_ENV
+          echo "$(echo "${DEFI_VERSION}" | cut -c 1-)"
+          echo "${DEFI_VERSION:1}"
           echo "version: ${DEFI_VERSION}"
       -
         name: Print version number
