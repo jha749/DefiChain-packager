@@ -26,7 +26,7 @@ RUN cd ./src/containers/WalletPage/ && \
 # hardcode rpc connect settings
 RUN cd ./src/utils && \
     cat rpc-client.ts | \
-    perl -pe 'BEGIN{undef $/;} s/const \{ rpcauth[\s\S]*?\.rpcport\;/const rpcconnect=window.location.hostname; const rpcport="5001"; const rpcauth="dummy:dummy";/' > \
+    perl -pe 'BEGIN{undef $/;} s/const \{ rpcuser[\s\S]*?\.rpcport\;/const rpcconnect=window.location.hostname; const rpcport="5001"; const rpcuser="dummy"; const rpcpassword="dummy";/' > \
     rpc-client-new.ts && \
     mv rpc-client-new.ts rpc-client.ts
 
