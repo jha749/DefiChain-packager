@@ -72,6 +72,7 @@ RUN ./autogen.sh
 
 # XREF: #make-configure
 RUN ./configure --prefix=`pwd`/depends/"$(cat ~/target_arch.txt)" \
+    CXXFLAGS="-march=armv8-a+crc+crypto" \
     --enable-glibc-back-compat \
     --enable-reduce-exports \
     LDFLAGS="-static-libstdc++"
