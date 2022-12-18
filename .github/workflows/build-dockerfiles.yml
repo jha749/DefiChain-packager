@@ -50,8 +50,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: dockerfiles/arm32v7.dockerfile
+          file: dockerfiles/arm.dockerfile
           build-args: BUILD_VERSION=${{ env.defi_version }}
-          platforms: linux/arm64 #, linux/arm/v7
+          platforms: linux/arm64, linux/arm/v7
           push: true
           tags: jha749/defichain:latest, jha749/defichain:${{ env.defi_version }}
