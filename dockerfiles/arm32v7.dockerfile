@@ -61,8 +61,10 @@ LABEL org.defichain.arch=${TARGETPLATFORM}
 
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then \
     echo 'aarch64-linux-gnu' > ~/target_arch.txt; \
+    echo 'CXXFLAGS="-march=armv8-a+crc+crypto"' > ~/configure_params.txt; \
   else \
     echo 'arm-linux-gnueabihf' > ~/target_arch.txt; \
+    echo '' > ~/configure_params.txt; \
   fi
 
 WORKDIR /work
@@ -72,8 +74,7 @@ RUN ./autogen.sh
 
 # XREF: #make-configure
 RUN ./configure --prefix=`pwd`/depends/"$(cat ~/target_arch.txt)" \
-    CXXFLAGS="-march=armv8-a+crc+crypto" \
-    --enable-glibc-back-compat \
+    "$(cat ~/configure_params.txt)" --enable-glibc-back-compat \
     --enable-reduce-exports \
     LDFLAGS="-static-libstdc++"
 
