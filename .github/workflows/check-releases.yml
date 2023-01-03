@@ -13,7 +13,7 @@ jobs:
       - name: Fetch release version
         run: |
           curl -sL https://api.github.com/repos/DefiCh/ain/releases/latest > /tmp/release-file.json && \
-          RELEASE_VERSION="$(jq -r '.tag_name' /tmp/release-file.json)" && [["$RELEASE_VERSION" -ne "null" ]] && \
+          RELEASE_VERSION="$(jq -r '.tag_name' /tmp/release-file.json)" && test "$RELEASE_VERSION" != "null" && \
           echo "$RELEASE_VERSION" > release-versions/defichain-latest.txt
       - name: Check for modified files
         id: git-check
